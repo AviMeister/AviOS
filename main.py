@@ -2,24 +2,40 @@
 # Will adjust intro text later maybe with stylings
 # Greet the user when AviOS(software) launches
 
-print("AviOS is starting up. Let's build something real.")
+import datetime
+
+# i need this to get the current date and time on startup so it feels alive
+now = datetime.datetime.now()
+
+# formatting the date to look readable like "Wednesday, 15 July 2026"
+date_str = now.strftime("%A, %d %B %Y")
+
+# formatting the time to just show hours and minutes, clean and simple
+time_str = now.strftime("%H:%M")
+
+# * 40 just repeats the "=" sign 40 times - makes a clean divider line without typing it manually
+print("=" * 40)
+print("  AviOS  |  Personal Life Operating System")
+
+# f-string lets me drop variables directly into the text - date and time show up live
+print(f"  {date_str}  |  {time_str}")
+print("=" * 40)
 
 # Show the main menu so the user can pick what they want to do
-print("\nWhat do you want to do?")
-print("1. Tasks")
-print("2. Habits")
-print("3. Expenses")
+print("\n  1.  Tasks")
+print("  2.  Habits")
+print("  3.  Expenses")
 
 # Wait for the user to type a number and store it
-choice = input("\nPick a number: ")
+choice = input("\n  > ")
 
 # Respond based on what they picked
 # will later replace these with real features
 if choice == "1":
-    print("Opening Tasks...")
+    print("\n  Opening Tasks...")
 elif choice == "2":
-    print("Opening Habits...")
+    print("\n  Opening Habits...")
 elif choice == "3":
-    print("Opening Expenses...")
+    print("\n  Opening Expenses...")
 else:
-    print("That's not a valid option. Try 1, 2 or 3.")
+    print("\n  Invalid input. Choose 1, 2 or 3.")
