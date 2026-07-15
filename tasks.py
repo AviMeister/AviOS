@@ -98,6 +98,25 @@ def delete_task():
     print(f"\n Deleted: {deleted_task['name']}")
 
 
+def clear_done_tasks():
+    global task_list
+
+    done_count = 0
+
+    for task in task_list:
+        if task["completed"]:
+            done_count += 1
+
+    if done_count == 0:
+        print("\n No done tasks to clear.")
+        return
+
+    task_list = [task for task in task_list if not task["completed"]]
+    save_tasks()
+
+    print(f"\n Cleared {done_count} done task(s).")
+
+
 def open_tasks():
     while True:
         print("\n Tasks")
@@ -105,7 +124,8 @@ def open_tasks():
         print(" 2. Add")
         print(" 3. Done")
         print(" 4. Delete")
-        print(" 5. Back")
+        print(" 5. Clear Done")
+        print(" 6. Back")
 
         choice = input("\n Choose an option: ").strip()
 
@@ -122,6 +142,9 @@ def open_tasks():
             delete_task()
             pause()
         elif choice == "5":
+            clear_done_tasks()
+            pause()
+        elif choice == "6":
             break
         else:
-            print("\n Choose 1, 2, 3, 4 or 5.")
+            print("\n Choose 1, 2, 3, 4, 5 or 6.")
