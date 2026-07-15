@@ -4,7 +4,7 @@ task_list = []
 
 
 def view_tasks():
-    print("\n Your tasks:")
+    print("\n Tasks:")
 
     if len(task_list) == 0:
         print(" No tasks yet.")
@@ -21,7 +21,7 @@ def add_task():
         print("\n Task cannot be empty.")
     else:
         task_list.append({"name": task_name, "completed": False})
-        print(f"\n Added task: {task_name}")
+        print(f"\n Added: {task_name}")
 
 
 def complete_task():
@@ -30,7 +30,7 @@ def complete_task():
     if len(task_list) == 0:
         return
 
-    task_choice = input("\n Which task did you complete? ").strip()
+    task_choice = input("\n Task number: ").strip()
 
     if not task_choice.isdigit():
         print("\n Please enter a task number.")
@@ -43,18 +43,39 @@ def complete_task():
         return
 
     task_list[task_number - 1]["completed"] = True
-    print("\n Task marked as complete.")
+    print("\n Marked done.")
+
+
+def delete_task():
+    view_tasks()
+
+    if len(task_list) == 0:
+        return
+
+    task_choice = input("\n Delete task number: ").strip()
+
+    if not task_choice.isdigit():
+        print("\n Please enter a task number.")
+        return
+
+    task_number = int(task_choice)
+
+    if task_number < 1 or task_number > len(task_list):
+        print("\n That task number does not exist.")
+        return
+
+    deleted_task = task_list.pop(task_number - 1)
+    print(f"\n Deleted: {deleted_task['name']}")
 
 
 def open_tasks():
-    print("\n Opening Tasks...")
-
     while True:
-        print("\n Tasks Menu")
-        print(" 1. View tasks")
-        print(" 2. Add task")
-        print(" 3. Complete task")
-        print(" 4. Back")
+        print("\n Tasks")
+        print(" 1. View")
+        print(" 2. Add")
+        print(" 3. Done")
+        print(" 4. Delete")
+        print(" 5. Back")
 
         choice = input("\n Choose an option: ").strip()
 
@@ -65,7 +86,8 @@ def open_tasks():
         elif choice == "3":
             complete_task()
         elif choice == "4":
-            print("\n Going back to the main menu...")
+            delete_task()
+        elif choice == "5":
             break
         else:
-            print("\n Invalid input. Choose 1, 2, 3 or 4.")
+            print("\n Choose 1, 2, 3, 4 or 5.")
