@@ -4,6 +4,7 @@
 
 import datetime
 
+from habits import open_habits
 from tasks import open_tasks
 
 
@@ -47,7 +48,7 @@ def main():
         if choice == "1":
             open_tasks()
         elif choice == "2":
-            print("\n  Opening Habits...")
+            open_habits()
         elif choice == "3":
             print("\n  Opening Expenses...")
         elif choice == "4":
