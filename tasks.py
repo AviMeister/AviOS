@@ -175,8 +175,9 @@ def manage_task(task_index):
         else:
             print(" 1. Mark done")
             print(" 2. Edit")
-            print(" 3. Delete")
-            print(" 4. Back")
+            print(" 3. Archive")
+            print(" 4. Delete")
+            print(" 5. Back")
 
         choice = input("\n Choose an option: ").strip()
 
@@ -189,18 +190,13 @@ def manage_task(task_index):
         elif choice == "2":
             edit_task(task_index)
             break
-        elif choice == "3" and task.get("completed", False):
+        elif choice == "3":
             archive_task(task_index)
             break
-        elif choice == "3":
-            delete_task(task_index)
-            break
-        elif choice == "4" and task.get("completed", False):
-            delete_task(task_index)
-            break
         elif choice == "4":
+            delete_task(task_index)
             break
-        elif choice == "5" and task.get("completed", False):
+        elif choice == "5":
             break
         else:
             print("\n Choose one of the menu numbers.")
@@ -209,33 +205,13 @@ def manage_task(task_index):
 def open_task_view():
     view_tasks()
 
-    if len(task_list) == 0:
+    if len(get_task_order()) == 0:
         return
 
     task_index = choose_task()
 
     if task_index is not None:
         manage_task(task_index)
-
-
-def archive_done_tasks():
-    done_count = 0
-
-    for task in task_list:
-        if task.get("completed", False) and not task.get("archived", False):
-            done_count += 1
-
-    if done_count == 0:
-        print("\n No done tasks to archive.")
-        return
-
-    for task in task_list:
-        if task.get("completed", False):
-            task["archived"] = True
-
-    save_tasks()
-
-    print(f"\n Archived {done_count} done task(s).")
 
 
 def show_archived_tasks():
@@ -249,8 +225,9 @@ def show_archived_tasks():
 
     for task_number, task_index in enumerate(archived_tasks, start=1):
         task = task_list[task_index]
+        status = "x" if task.get("completed", False) else " "
         created_at = task.get("created_at", "No date")
-        print(f" {task_number}. [x] {task['name']} ({created_at})")
+        print(f" {task_number}. [{status}] {task['name']} ({created_at})")
 
 
 def open_tasks():
@@ -259,8 +236,7 @@ def open_tasks():
         print(" 1. Add")
         print(" 2. View")
         print(" 3. Archived")
-        print(" 4. Archive Done")
-        print(" 5. Back")
+        print(" 4. Back")
 
         choice = input("\n Choose an option: ").strip()
 
@@ -274,9 +250,6 @@ def open_tasks():
             show_archived_tasks()
             pause()
         elif choice == "4":
-            archive_done_tasks()
-            pause()
-        elif choice == "5":
             break
         else:
-            print("\n Choose 1, 2, 3, 4 or 5.")
+            print("\n Choose 1, 2, 3 or 4.")
