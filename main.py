@@ -4,6 +4,7 @@
 
 import datetime
 
+from dashboard import open_dashboard
 from expenses import open_expenses
 from habits import open_habits
 from tasks import open_tasks
@@ -36,7 +37,7 @@ def show_main_menu():
     print("  4.  Exit AviOS")
 
 
-def main():
+def open_full_menu():
     while True:
         show_header()
         show_main_menu()
@@ -53,10 +54,14 @@ def main():
         elif choice == "3":
             open_expenses()
         elif choice == "4":
-            print("\n  Closing AviOS. See you next time.")
             break
         else:
             print("\n  Invalid input. Choose 1, 2, 3 or 4.")
+
+
+def main():
+    show_header()
+    open_dashboard(open_full_menu)
 
 
 if __name__ == "__main__":

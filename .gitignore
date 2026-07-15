@@ -18,6 +18,7 @@ db.sqlite3
 tasks.json
 habits.json
 expenses.json
+dashboard.json
 
 # Local Codex instructions
 AGENTS.md
