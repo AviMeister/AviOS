@@ -11,6 +11,7 @@ def prepare_tasks(tasks):
     for task in tasks:
         task.setdefault("completed", False)
         task.setdefault("archived", False)
+        task.setdefault("deleted", False)
         task.setdefault("created_at", "Unknown")
 
     return tasks
@@ -41,7 +42,11 @@ def pause():
 
 
 def show_task_summary():
-    visible_tasks = [task for task in task_list if not task.get("archived", False)]
+    visible_tasks = [
+        task
+        for task in task_list
+        if not task.get("archived", False) and not task.get("deleted", False)
+    ]
     done_count = sum(1 for task in visible_tasks if task.get("completed", False))
     open_count = len(visible_tasks) - done_count
 
@@ -52,12 +57,16 @@ def get_task_order():
     open_tasks = [
         task_index
         for task_index, task in enumerate(task_list)
-        if not task.get("completed", False) and not task.get("archived", False)
+        if not task.get("completed", False)
+        and not task.get("archived", False)
+        and not task.get("deleted", False)
     ]
     done_tasks = [
         task_index
         for task_index, task in enumerate(task_list)
-        if task.get("completed", False) and not task.get("archived", False)
+        if task.get("completed", False)
+        and not task.get("archived", False)
+        and not task.get("deleted", False)
     ]
 
     return open_tasks + done_tasks
@@ -65,8 +74,54 @@ def get_task_order():
 
 def get_archived_task_order():
     return [
-        task_index for task_index, task in enumerate(task_list) if task.get("archived", False)
+        task_index
+        for task_index, task in enumerate(task_list)
+        if task.get("archived", False) and not task.get("deleted", False)
     ]
+
+
+def get_search_task_order(search_text):
+    search_text = search_text.lower()
+
+    open_tasks = []
+    done_tasks = []
+    archived_tasks = []
+    deleted_tasks = []
+
+    for task_index, task in enumerate(task_list):
+        task_name = task["name"].lower()
+
+        if search_text not in task_name:
+            continue
+
+        if task.get("deleted", False):
+            deleted_tasks.append(task_index)
+        elif task.get("archived", False):
+            archived_tasks.append(task_index)
+        elif task.get("completed", False):
+            done_tasks.append(task_index)
+        else:
+            open_tasks.append(task_index)
+
+    return open_tasks + done_tasks + archived_tasks + deleted_tasks
+
+
+def get_task_status(task):
+    if task.get("deleted", False):
+        return "Deleted"
+    if task.get("archived", False):
+        return "Archived"
+    if task.get("completed", False):
+        return "Done"
+
+    return "Open"
+
+
+def print_task_line(task_number, task):
+    status = "x" if task.get("completed", False) else " "
+    created_at = task.get("created_at", "Unknown")
+    task_status = get_task_status(task)
+    print(f" {task_number}. [{status}] {task['name']} | {task_status} | Created: {created_at}")
 
 
 def view_tasks():
@@ -79,9 +134,7 @@ def view_tasks():
     else:
         for task_number, task_index in enumerate(task_order, start=1):
             task = task_list[task_index]
-            status = "x" if task.get("completed", False) else " "
-            created_at = task.get("created_at", "Unknown")
-            print(f" {task_number}. [{status}] {task['name']} | Created: {created_at}")
+            print_task_line(task_number, task)
 
         show_task_summary()
 
@@ -118,6 +171,7 @@ def add_task():
                 "name": task_name,
                 "completed": False,
                 "archived": False,
+                "deleted": False,
                 "created_at": datetime.now().strftime("%Y-%m-%d"),
             }
         )
@@ -157,9 +211,10 @@ def delete_task(task_index):
         print("\n Kept task.")
         return
 
-    deleted_task = task_list.pop(task_index)
+    task_list[task_index]["deleted"] = True
+    task_list[task_index]["deleted_at"] = datetime.now().strftime("%Y-%m-%d")
     save_tasks()
-    print(f"\n Deleted: {deleted_task['name']}")
+    print("\n Moved to deleted.")
 
 
 def archive_task(task_index):
@@ -234,9 +289,27 @@ def show_archived_tasks():
 
     for task_number, task_index in enumerate(archived_tasks, start=1):
         task = task_list[task_index]
-        status = "x" if task.get("completed", False) else " "
-        created_at = task.get("created_at", "Unknown")
-        print(f" {task_number}. [{status}] {task['name']} | Created: {created_at}")
+        print_task_line(task_number, task)
+
+
+def search_tasks():
+    search_text = input("\n Search for: ").strip()
+
+    if search_text == "":
+        print("\n Search cannot be empty.")
+        return
+
+    search_results = get_search_task_order(search_text)
+
+    print("\n Search results:")
+
+    if len(search_results) == 0:
+        print(" No matching tasks found.")
+        return
+
+    for task_number, task_index in enumerate(search_results, start=1):
+        task = task_list[task_index]
+        print_task_line(task_number, task)
 
 
 def open_tasks():
@@ -244,8 +317,9 @@ def open_tasks():
         print("\n Tasks")
         print(" 1. Add")
         print(" 2. View")
-        print(" 3. Archived")
-        print(" 4. Back")
+        print(" 3. Search")
+        print(" 4. Archived")
+        print(" 5. Back")
 
         choice = input("\n Choose an option: ").strip()
 
@@ -256,9 +330,12 @@ def open_tasks():
             open_task_view()
             pause()
         elif choice == "3":
-            show_archived_tasks()
+            search_tasks()
             pause()
         elif choice == "4":
+            show_archived_tasks()
+            pause()
+        elif choice == "5":
             break
         else:
-            print("\n Choose 1, 2, 3 or 4.")
+            print("\n Choose 1, 2, 3, 4 or 5.")
