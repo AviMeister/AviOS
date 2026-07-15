@@ -6,7 +6,8 @@ import datetime
 
 from tasks import open_tasks
 
-while True:
+
+def show_header():
     # i need this to get the current date and time on startup so it feels alive
     now = datetime.datetime.now()
 
@@ -24,25 +25,37 @@ while True:
     print(f"  {date_str}  |  {time_str}")
     print("=" * 40)
 
+
+def show_main_menu():
     # Show the main menu so the user can pick what they want to do
     print("\n  1.  Tasks")
     print("  2.  Habits")
     print("  3.  Expenses")
     print("  4.  Exit AviOS")
 
-    # Wait for the user to type a number and store it
-    choice = input("\n  > ").strip()
 
-    # Respond based on what they picked
-    # will later replace these with real features
-    if choice == "1":
-        open_tasks()
-    elif choice == "2":
-        print("\n  Opening Habits...")
-    elif choice == "3":
-        print("\n  Opening Expenses...")
-    elif choice == "4":
-        print("\n  Closing AviOS. See you next time.")
-        break
-    else:
-        print("\n  Invalid input. Choose 1, 2, 3 or 4.")
+def main():
+    while True:
+        show_header()
+        show_main_menu()
+
+        # Wait for the user to type a number and store it
+        choice = input("\n  > ").strip()
+
+        # Respond based on what they picked
+        # will later replace these with real features
+        if choice == "1":
+            open_tasks()
+        elif choice == "2":
+            print("\n  Opening Habits...")
+        elif choice == "3":
+            print("\n  Opening Expenses...")
+        elif choice == "4":
+            print("\n  Closing AviOS. See you next time.")
+            break
+        else:
+            print("\n  Invalid input. Choose 1, 2, 3 or 4.")
+
+
+if __name__ == "__main__":
+    main()
