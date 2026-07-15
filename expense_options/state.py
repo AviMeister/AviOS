@@ -20,6 +20,8 @@ def prepare_expenses(expenses):
         expense.setdefault("category", "Other")
         expense.setdefault("exchange_rate_to_eur", 1.0)
         expense.setdefault("created_at", "Unknown")
+        expense.setdefault("archived", False)
+        expense.setdefault("deleted", False)
 
     return expenses
 

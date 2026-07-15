@@ -11,6 +11,26 @@ def create_empty_total():
     }
 
 
+def calculate_totals(expenses):
+    totals_by_currency = {}
+    combined_totals = create_empty_total()
+
+    for expense in expenses:
+        if expense.get("archived", False) or expense.get("deleted", False):
+            continue
+
+        currency = expense["currency"]
+        direction = expense["direction"]
+
+        if currency not in totals_by_currency:
+            totals_by_currency[currency] = create_empty_total()
+
+        totals_by_currency[currency][direction] += expense["amount"]
+        combined_totals[direction] += get_converted_amount(expense)
+
+    return totals_by_currency, combined_totals
+
+
 def show_currency_totals(totals_by_currency):
     print("\n Per currency:")
 
@@ -39,18 +59,11 @@ def show_expense_summary():
         print(" No expenses yet.")
         return
 
-    totals_by_currency = {}
-    combined_totals = create_empty_total()
+    totals_by_currency, combined_totals = calculate_totals(expense_list)
 
-    for expense in expense_list:
-        currency = expense["currency"]
-        direction = expense["direction"]
-
-        if currency not in totals_by_currency:
-            totals_by_currency[currency] = create_empty_total()
-
-        totals_by_currency[currency][direction] += expense["amount"]
-        combined_totals[direction] += get_converted_amount(expense)
+    if len(totals_by_currency) == 0:
+        print(" No active expenses to summarize.")
+        return
 
     show_currency_totals(totals_by_currency)
     show_combined_totals(combined_totals)

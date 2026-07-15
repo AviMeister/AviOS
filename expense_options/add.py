@@ -117,6 +117,8 @@ def add_expense():
             "category": category,
             "exchange_rate_to_eur": exchange_rate_to_eur,
             "created_at": get_current_timestamp(),
+            "archived": False,
+            "deleted": False,
         }
     )
     save_expenses()
