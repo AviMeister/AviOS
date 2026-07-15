@@ -7,13 +7,22 @@ from pathlib import Path
 TASKS_FILE = Path(__file__).parent / "tasks.json"
 
 
+def prepare_tasks(tasks):
+    for task in tasks:
+        task.setdefault("completed", False)
+        task.setdefault("archived", False)
+        task.setdefault("created_at", "Unknown")
+
+    return tasks
+
+
 def load_tasks():
     if not TASKS_FILE.exists():
         return []
 
     try:
         with TASKS_FILE.open("r", encoding="utf-8") as file:
-            return json.load(file)
+            return prepare_tasks(json.load(file))
     except json.JSONDecodeError:
         print("\n Could not read saved tasks. Starting empty.")
         return []
@@ -71,8 +80,8 @@ def view_tasks():
         for task_number, task_index in enumerate(task_order, start=1):
             task = task_list[task_index]
             status = "x" if task.get("completed", False) else " "
-            created_at = task.get("created_at", "No date")
-            print(f" {task_number}. [{status}] {task['name']} ({created_at})")
+            created_at = task.get("created_at", "Unknown")
+            print(f" {task_number}. [{status}] {task['name']} | Created: {created_at}")
 
         show_task_summary()
 
@@ -226,8 +235,8 @@ def show_archived_tasks():
     for task_number, task_index in enumerate(archived_tasks, start=1):
         task = task_list[task_index]
         status = "x" if task.get("completed", False) else " "
-        created_at = task.get("created_at", "No date")
-        print(f" {task_number}. [{status}] {task['name']} ({created_at})")
+        created_at = task.get("created_at", "Unknown")
+        print(f" {task_number}. [{status}] {task['name']} | Created: {created_at}")
 
 
 def open_tasks():
