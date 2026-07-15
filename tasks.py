@@ -3,6 +3,10 @@
 task_list = []
 
 
+def pause():
+    input("\n Press Enter to continue...")
+
+
 def view_tasks():
     print("\n Tasks:")
 
@@ -81,12 +85,16 @@ def open_tasks():
 
         if choice == "1":
             view_tasks()
+            pause()
         elif choice == "2":
             add_task()
+            pause()
         elif choice == "3":
             complete_task()
+            pause()
         elif choice == "4":
             delete_task()
+            pause()
         elif choice == "5":
             break
         else:
