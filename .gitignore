@@ -1,0 +1,15 @@
+# Python virtual environment
+venv/
+
+# Python-generated cache
+__pycache__/
+*.py[cod]
+
+# Ruff-generated cache
+.ruff_cache/
+
+# Private environment variables and secrets
+.env
+
+# Local Django database for later
+db.sqlite3
