@@ -30,15 +30,57 @@ def pause():
     input("\n Press Enter to continue...")
 
 
+def show_task_summary():
+    done_count = sum(1 for task in task_list if task["completed"])
+    open_count = len(task_list) - done_count
+
+    print(f"\n Open: {open_count} | Done: {done_count} | Total: {len(task_list)}")
+
+
+def get_task_order():
+    open_tasks = [
+        task_index for task_index, task in enumerate(task_list) if not task["completed"]
+    ]
+    done_tasks = [
+        task_index for task_index, task in enumerate(task_list) if task["completed"]
+    ]
+
+    return open_tasks + done_tasks
+
+
 def view_tasks():
     print("\n Tasks:")
 
     if len(task_list) == 0:
         print(" No tasks yet.")
     else:
-        for task_number, task in enumerate(task_list, start=1):
+        for task_number, task_index in enumerate(get_task_order(), start=1):
+            task = task_list[task_index]
             status = "x" if task["completed"] else " "
             print(f" {task_number}. [{status}] {task['name']}")
+
+        show_task_summary()
+
+
+def choose_task():
+    task_choice = input("\n Select a task number, or press Enter to go back: ").strip()
+
+    if task_choice == "":
+        return None
+
+    if not task_choice.isdigit():
+        print("\n Please enter a task number.")
+        return None
+
+    task_number = int(task_choice)
+
+    task_order = get_task_order()
+
+    if task_number < 1 or task_number > len(task_order):
+        print("\n That task number does not exist.")
+        return None
+
+    return task_order[task_number - 1]
 
 
 def add_task():
@@ -52,50 +94,52 @@ def add_task():
         print(f"\n Added: {task_name}")
 
 
-def complete_task():
-    view_tasks()
-
-    if len(task_list) == 0:
-        return
-
-    task_choice = input("\n Task number: ").strip()
-
-    if not task_choice.isdigit():
-        print("\n Please enter a task number.")
-        return
-
-    task_number = int(task_choice)
-
-    if task_number < 1 or task_number > len(task_list):
-        print("\n That task number does not exist.")
-        return
-
-    task_list[task_number - 1]["completed"] = True
+def mark_task_done(task_index):
+    task_list[task_index]["completed"] = True
     save_tasks()
     print("\n Marked done.")
 
 
-def delete_task():
+def delete_task(task_index):
+    deleted_task = task_list.pop(task_index)
+    save_tasks()
+    print(f"\n Deleted: {deleted_task['name']}")
+
+
+def manage_task(task_index):
+    while True:
+        task = task_list[task_index]
+        status = "Done" if task["completed"] else "Open"
+
+        print(f"\n {task['name']} ({status})")
+        print(" 1. Mark done")
+        print(" 2. Delete")
+        print(" 3. Back")
+
+        choice = input("\n Choose an option: ").strip()
+
+        if choice == "1":
+            mark_task_done(task_index)
+            break
+        elif choice == "2":
+            delete_task(task_index)
+            break
+        elif choice == "3":
+            break
+        else:
+            print("\n Choose 1, 2 or 3.")
+
+
+def open_task_view():
     view_tasks()
 
     if len(task_list) == 0:
         return
 
-    task_choice = input("\n Delete task number: ").strip()
+    task_index = choose_task()
 
-    if not task_choice.isdigit():
-        print("\n Please enter a task number.")
-        return
-
-    task_number = int(task_choice)
-
-    if task_number < 1 or task_number > len(task_list):
-        print("\n That task number does not exist.")
-        return
-
-    deleted_task = task_list.pop(task_number - 1)
-    save_tasks()
-    print(f"\n Deleted: {deleted_task['name']}")
+    if task_index is not None:
+        manage_task(task_index)
 
 
 def clear_done_tasks():
@@ -120,31 +164,23 @@ def clear_done_tasks():
 def open_tasks():
     while True:
         print("\n Tasks")
-        print(" 1. View")
-        print(" 2. Add")
-        print(" 3. Done")
-        print(" 4. Delete")
-        print(" 5. Clear Done")
-        print(" 6. Back")
+        print(" 1. Add")
+        print(" 2. View")
+        print(" 3. Clear Done")
+        print(" 4. Back")
 
         choice = input("\n Choose an option: ").strip()
 
         if choice == "1":
-            view_tasks()
-            pause()
-        elif choice == "2":
             add_task()
             pause()
+        elif choice == "2":
+            open_task_view()
+            pause()
         elif choice == "3":
-            complete_task()
-            pause()
-        elif choice == "4":
-            delete_task()
-            pause()
-        elif choice == "5":
             clear_done_tasks()
             pause()
-        elif choice == "6":
+        elif choice == "4":
             break
         else:
-            print("\n Choose 1, 2, 3, 4, 5 or 6.")
+            print("\n Choose 1, 2, 3 or 4.")
