@@ -1,6 +1,6 @@
 # Dashboard metrics for AviOS
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from expense_options.summary import calculate_totals
 from expense_options.state import expense_list
@@ -28,6 +28,34 @@ def get_tasks_done_today_count():
         for done_entry in task.get("done_history", [])
         if done_entry.get("done_at", "").startswith(today)
     )
+
+
+def get_day_streak_from_dates(done_dates, today):
+    streak = 0
+    current_day = today
+
+    while current_day in done_dates:
+        streak += 1
+        current_day -= timedelta(days=1)
+
+    return streak
+
+
+def get_task_day_streak():
+    done_dates = set()
+
+    for task in task_list:
+        for done_entry in task.get("done_history", []):
+            done_date_text = done_entry.get("done_at", "")[:10]
+
+            try:
+                done_dates.add(datetime.strptime(done_date_text, "%d-%m-%Y").date())
+            except ValueError:
+                pass
+
+    today = datetime.strptime(get_today_date(), "%d-%m-%Y").date()
+
+    return get_day_streak_from_dates(done_dates, today)
 
 
 def get_habit_counts():
