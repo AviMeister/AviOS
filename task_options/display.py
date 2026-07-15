@@ -87,9 +87,10 @@ def print_task_line(task_number, task):
     created_at = task.get("created_at", "Unknown")
     task_status = get_task_status(task)
     habit_text = " | Habit idea" if task.get("habit_candidate", False) else ""
+    pinned_text = " | Pinned" if task.get("pinned", False) else ""
     print(
         f" {task_number}. [{status}] {task['name']} | {task_status} | "
-        f"Created: {created_at}{habit_text}"
+        f"Created: {created_at}{habit_text}{pinned_text}"
     )
 
 

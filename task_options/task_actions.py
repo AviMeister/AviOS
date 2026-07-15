@@ -1,6 +1,8 @@
 # Task action helpers for AviOS
 
+from dashboard_options.activity import add_activity
 from task_options.habit_detection import ask_about_habit
+from task_options.pinned import pin_task, unpin_task
 from task_options.state import get_current_timestamp, get_today_name, save_tasks, task_list
 
 
@@ -15,12 +17,15 @@ def mark_task_done(task_index):
     )
     save_tasks()
     print("\n Marked done.")
+    print(" Good. One step forward.")
+    add_activity(f"Completed task: {task_list[task_index]['name']}")
     ask_about_habit(task_index)
 
 
 def mark_task_open(task_index):
     task_list[task_index]["completed"] = False
     save_tasks()
+    add_activity(f"Reopened task: {task_list[task_index]['name']}")
     print("\n Marked open.")
 
 
@@ -53,6 +58,7 @@ def delete_task(task_index):
 def archive_task(task_index):
     task_list[task_index]["archived"] = True
     save_tasks()
+    add_activity(f"Archived task: {task_list[task_index]['name']}")
     print("\n Archived task.")
 
 
@@ -70,7 +76,11 @@ def manage_task(task_index):
     print(" 2. Edit")
     print(" 3. Archive")
     print(" 4. Delete")
-    print(" 5. Back")
+    if task.get("pinned", False):
+        print(" 5. Unpin")
+    else:
+        print(" 5. Pin")
+    print(" 6. Back")
 
     choice = input("\n Choose an option: ").strip()
 
@@ -85,6 +95,11 @@ def manage_task(task_index):
     elif choice == "4":
         delete_task(task_index)
     elif choice == "5":
+        if task.get("pinned", False):
+            unpin_task(task_index)
+        else:
+            pin_task(task_index)
+    elif choice == "6":
         return
     else:
         print("\n Choose one of the menu numbers.")

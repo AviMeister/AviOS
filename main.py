@@ -61,7 +61,7 @@ def open_full_menu():
 
 def main():
     show_header()
-    open_dashboard(open_full_menu)
+    open_dashboard()
 
 
 if __name__ == "__main__":

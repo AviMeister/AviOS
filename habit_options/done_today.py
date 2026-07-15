@@ -1,5 +1,6 @@
 # Done today habit option for AviOS
 
+from dashboard_options.activity import add_activity
 from habit_options.state import get_today_date, habit_list, save_habits
 from habit_options.view import choose_habit, view_habits
 
@@ -24,4 +25,5 @@ def mark_habit_done_today():
 
     habit["done_dates"].append(today)
     save_habits()
+    add_activity(f"Completed habit: {habit['name']}")
     print("\n Marked done today.")

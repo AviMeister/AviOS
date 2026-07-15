@@ -1,5 +1,6 @@
 # Add expense option for AviOS
 
+from dashboard_options.activity import add_activity
 from expense_options.state import expense_list, get_current_timestamp, save_expenses
 
 
@@ -122,4 +123,5 @@ def add_expense():
         }
     )
     save_expenses()
+    add_activity(f"Added expense: {description}")
     print(f"\n Added: {description}")

@@ -16,6 +16,7 @@ def prepare_tasks(tasks):
         task.setdefault("done_history", [])
         task.setdefault("habit_candidate", False)
         task.setdefault("habit_prompt_dismissed", False)
+        task.setdefault("pinned", False)
 
     return tasks
 
