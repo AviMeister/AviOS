@@ -1,6 +1,29 @@
 # Task related features for AviOS
 
-task_list = []
+import json
+from pathlib import Path
+
+TASKS_FILE = Path(__file__).parent / "tasks.json"
+
+
+def load_tasks():
+    if not TASKS_FILE.exists():
+        return []
+
+    try:
+        with TASKS_FILE.open("r", encoding="utf-8") as file:
+            return json.load(file)
+    except json.JSONDecodeError:
+        print("\n Could not read saved tasks. Starting empty.")
+        return []
+
+
+def save_tasks():
+    with TASKS_FILE.open("w", encoding="utf-8") as file:
+        json.dump(task_list, file, indent=4)
+
+
+task_list = load_tasks()
 
 
 def pause():
@@ -25,6 +48,7 @@ def add_task():
         print("\n Task cannot be empty.")
     else:
         task_list.append({"name": task_name, "completed": False})
+        save_tasks()
         print(f"\n Added: {task_name}")
 
 
@@ -47,6 +71,7 @@ def complete_task():
         return
 
     task_list[task_number - 1]["completed"] = True
+    save_tasks()
     print("\n Marked done.")
 
 
@@ -69,6 +94,7 @@ def delete_task():
         return
 
     deleted_task = task_list.pop(task_number - 1)
+    save_tasks()
     print(f"\n Deleted: {deleted_task['name']}")
 
 

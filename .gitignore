@@ -14,5 +14,8 @@ __pycache__/
 # Local Django database for later
 db.sqlite3
 
+# Local AviOS data
+tasks.json
+
 # Local Codex instructions
 AGENTS.md
