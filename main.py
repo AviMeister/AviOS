@@ -4,6 +4,8 @@
 
 import datetime
 
+from tasks import open_tasks
+
 # i need this to get the current date and time on startup so it feels alive
 now = datetime.datetime.now()
 
@@ -32,7 +34,7 @@ choice = input("\n  > ")
 # Respond based on what they picked
 # will later replace these with real features
 if choice == "1":
-    print("\n  Opening Tasks...")
+    open_tasks()
 elif choice == "2":
     print("\n  Opening Habits...")
 elif choice == "3":
