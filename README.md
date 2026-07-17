@@ -35,6 +35,24 @@ From the AviOS folder:
 .\venv\Scripts\python.exe main.py
 ```
 
+## Terminal UI (Phase 1 — read-only preview)
+
+AviOS also has an early Textual-based terminal UI. Right now it is
+view-only: it shows the same dashboard/task/habit/expense data as the
+CLI, but you can't add, edit, or delete anything from it yet — that's
+planned for a later phase.
+
+Run it with:
+
+```powershell
+.\venv\Scripts\python.exe avios_tui.py
+```
+
+Keys: `t` / `h` / `e` open Tasks / Habits / Expenses from the dashboard,
+arrow keys move between rows in a list, `escape` or `b` goes back,
+`q` quits. The existing `python main.py` CLI is unchanged and still the
+primary way to add/edit/delete things.
+
 ## Code Check
 
 Run Ruff:

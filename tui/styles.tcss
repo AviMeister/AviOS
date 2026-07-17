@@ -1,0 +1,11 @@
+#dashboard_body {
+    padding: 1 2;
+}
+
+#dashboard_body Static {
+    margin-bottom: 1;
+}
+
+DataTable {
+    height: 1fr;
+}
