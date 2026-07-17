@@ -1,3 +1,5 @@
+# Builds the read-only Textual screen that lists active and completed tasks.
+
 from textual.app import ComposeResult
 from textual.screen import Screen
 from textual.widgets import DataTable, Footer, Header

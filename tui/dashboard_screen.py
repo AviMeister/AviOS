@@ -1,3 +1,5 @@
+# Builds the read-only dashboard screen with AviOS's current daily overview.
+
 from textual.app import ComposeResult
 from textual.containers import Vertical
 from textual.screen import Screen

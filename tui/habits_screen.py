@@ -1,3 +1,5 @@
+# Builds the read-only Textual screen that shows habits and today's progress.
+
 from datetime import datetime
 
 from textual.app import ComposeResult

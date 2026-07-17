@@ -1,3 +1,5 @@
+# Tests that verify expense totals and currency summaries remain accurate.
+
 from expense_options.summary import calculate_totals
 
 

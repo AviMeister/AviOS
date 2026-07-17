@@ -1,3 +1,5 @@
+# Tests that keep AviOS Python files within the project's readable size limit.
+
 from pathlib import Path
 
 

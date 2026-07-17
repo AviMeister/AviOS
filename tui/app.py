@@ -1,3 +1,5 @@
+# Defines the main Textual application and its screen navigation rules.
+
 from textual.app import App
 
 from tui.dashboard_screen import DashboardScreen

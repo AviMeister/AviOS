@@ -1,3 +1,5 @@
+# Tests that confirm the read-only Textual dashboard opens and navigates correctly.
+
 import asyncio
 
 from tui.app import AviOSApp

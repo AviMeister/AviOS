@@ -1,4 +1,6 @@
-# Add expense option for AviOS
+# AviOS expense creation: asks the user for the details of one payment or income.
+# It checks the important choices, builds one organised expense dictionary, then saves it.
+# Viewing, editing, totals, archiving, and deletion live in their own focused files.
 
 from dashboard_options.activity import add_activity
 from expense_options.state import expense_list, get_current_timestamp, save_expenses

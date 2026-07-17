@@ -1,3 +1,5 @@
+# Tests that confirm the dashboard shows useful daily information correctly.
+
 from datetime import date
 
 from dashboard_options.metrics import get_day_streak_from_dates

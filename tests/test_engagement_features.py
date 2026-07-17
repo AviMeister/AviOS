@@ -1,3 +1,5 @@
+# Tests that protect AviOS activity, mood, and note features from regressions.
+
 from dashboard_options import activity, mood, notes
 from task_options import pinned
 

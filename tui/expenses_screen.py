@@ -1,3 +1,5 @@
+# Builds the read-only Textual screen that lists current expense information.
+
 from textual.app import ComposeResult
 from textual.screen import Screen
 from textual.widgets import DataTable, Footer, Header
