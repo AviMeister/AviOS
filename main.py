@@ -3,10 +3,12 @@
 # Greet the user when AviOS(software) launches
 
 import datetime
+import time
 
 from dashboard import open_dashboard
 from expenses import open_expenses
 from habits import open_habits
+from profile_options.state import get_user_name, set_user_name
 from tasks import open_tasks
 
 
@@ -59,8 +61,21 @@ def open_full_menu():
             print("\n  Invalid input. Choose 1, 2, 3 or 4.")
 
 
+def ensure_profile_name():
+    # First time AviOS runs, no name is saved yet - ask once and remember it.
+    name = get_user_name()
+
+    if name:
+        return
+
+    name = input("\n What should AviOS call you? ").strip()
+    set_user_name(name or "there")
+
+
 def main():
     show_header()
+    ensure_profile_name()
+    time.sleep(0.5)
     open_dashboard()
 
 

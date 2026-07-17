@@ -1,5 +1,6 @@
 # Builds the read-only dashboard screen with AviOS's current daily overview.
 
+from textual import events
 from textual.app import ComposeResult
 from textual.containers import Vertical
 from textual.screen import Screen
@@ -17,6 +18,7 @@ from dashboard_options.metrics import (
 )
 from dashboard_options.mood import get_today_mood
 from dashboard_options.notes import get_today_note
+from profile_options.state import get_user_name
 from task_options.pinned import get_pinned_task
 from tui.expenses_screen import ExpensesScreen
 from tui.habits_screen import HabitsScreen
@@ -44,12 +46,20 @@ class DashboardScreen(Screen):
         yield Footer()
 
     def on_mount(self) -> None:
+        self._refresh()
+
+    def on_screen_resume(self, event: events.ScreenResume) -> None:
+        self._refresh()
+
+    def _refresh(self) -> None:
         open_tasks, done_tasks = get_task_counts()
         habits_done, habit_total = get_habit_counts()
         _, combined_totals, balance = get_expense_balance()
         pinned_task = get_pinned_task()
 
+        name = get_user_name()
         self.query_one("#today", Static).update(
+            f"Welcome, {name}!\n\n"
             f"Focus: {get_daily_focus() or 'Not set yet'}\n"
             f"Mood: {get_today_mood() or 'Not checked in'}\n"
             f"Note: {get_today_note() or 'No note yet'}"

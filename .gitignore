@@ -19,6 +19,7 @@ tasks.json
 habits.json
 expenses.json
 dashboard.json
+profile.json
 
 # Local Codex instructions
 AGENTS.md

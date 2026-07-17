@@ -11,3 +11,35 @@
 DataTable {
     height: 1fr;
 }
+
+HabitPromptModal {
+    align: center middle;
+}
+
+#habit_prompt_body {
+    width: auto;
+    height: auto;
+    padding: 1 3;
+    border: thick $primary;
+    background: $surface;
+}
+
+#habit_prompt_body Button {
+    margin-top: 1;
+}
+
+NameEntryModal {
+    align: center middle;
+}
+
+#name_prompt_body {
+    width: 44;
+    height: auto;
+    padding: 1 3;
+    border: thick $primary;
+    background: $surface;
+}
+
+#name_prompt_body Input {
+    margin-top: 1;
+}

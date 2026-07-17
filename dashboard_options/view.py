@@ -12,6 +12,7 @@ from dashboard_options.metrics import (
 )
 from dashboard_options.mood import get_today_mood
 from dashboard_options.notes import get_today_note
+from profile_options.state import get_user_name
 from task_options.pinned import get_pinned_task
 
 
@@ -25,6 +26,9 @@ def show_today_dashboard():
     pinned_task = get_pinned_task()
     mood = get_today_mood()
     note = get_today_note()
+
+    name = get_user_name()
+    print(f"\n Welcome, {name}!" if name else "\n Welcome!")
 
     print("\n Today")
     print(f" Focus: {daily_focus or 'Not set yet'}")
