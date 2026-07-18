@@ -1,4 +1,4 @@
-# Builds the read-only dashboard screen with AviOS's current daily overview.
+# Today dashboard screen for AviOS
 
 from textual import events
 from textual.app import ComposeResult

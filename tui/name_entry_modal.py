@@ -1,4 +1,4 @@
-# A first-run popup asking what AviOS should call you.
+# Name entry popup for the AviOS TUI
 
 from textual.app import ComposeResult
 from textual.containers import Vertical

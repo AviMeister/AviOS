@@ -1,4 +1,4 @@
-# Builds the Textual screen that lists tasks and lets you mark them done.
+# Tasks screen for the AviOS TUI
 
 from textual.app import ComposeResult
 from textual.screen import Screen

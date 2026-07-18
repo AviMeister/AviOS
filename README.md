@@ -6,14 +6,30 @@ The goal is to learn software engineering by building something useful step by s
 
 ## Current Features
 
-- Shows a simple AviOS start screen with the current date and time
-- Main menu with Tasks, Habits, Expenses, and Exit
-- Tasks menu
-- Add tasks
-- View tasks
-- Mark tasks as done
-- Delete tasks
-- Save tasks locally in `tasks.json`
+AviOS opens on a Dashboard. From there you can still reach the classic Tasks, Habits, and Expenses menu.
+
+**Dashboard**
+- Shows today's focus, mood, quick note, recent activity, and task streak
+- Quick Actions let you add a task, mark a habit done, add an expense, set your focus, check in your mood, or add a note without leaving the dashboard
+- Shows an end-of-day review when you exit
+
+**Tasks**
+- Add, view, search, edit, delete, archive, and pin tasks
+- Complete the same task a lot and AviOS notices, offering to turn it into a habit
+- Saved locally in `tasks.json`
+
+**Habits**
+- Add a habit, view your progress and streak, mark it done for today
+- Saved locally in `habits.json`
+
+**Expenses**
+- Add income or expenses in different currencies
+- View, search, and see totals per currency plus a combined EUR summary
+- Archive or delete entries
+- Saved locally in `expenses.json`
+
+**Terminal UI**
+- A Textual-based interface for viewing everything and marking tasks/habits done. See the Terminal UI section below.
 
 ## What I Am Learning
 
@@ -35,12 +51,9 @@ From the AviOS folder:
 .\venv\Scripts\python.exe main.py
 ```
 
-## Terminal UI (Phase 1 — read-only preview)
+## Terminal UI
 
-AviOS also has an early Textual-based terminal UI. Right now it is
-view-only: it shows the same dashboard/task/habit/expense data as the
-CLI, but you can't add, edit, or delete anything from it yet — that's
-planned for a later phase.
+AviOS also has a Textual-based terminal UI. You can view your tasks, habits, and expenses, and mark a task or habit done straight from it. Adding new tasks, habits, or expenses, and editing or deleting things, still needs the regular CLI for now — that's coming later.
 
 Run it with:
 
@@ -48,10 +61,10 @@ Run it with:
 .\venv\Scripts\python.exe avios_tui.py
 ```
 
-Keys: `t` / `h` / `e` open Tasks / Habits / Expenses from the dashboard,
-arrow keys move between rows in a list, `escape` or `b` goes back,
-`q` quits. The existing `python main.py` CLI is unchanged and still the
-primary way to add/edit/delete things.
+Keys: `t` / `h` / `e` open Tasks / Habits / Expenses from the dashboard.
+Arrow keys move between rows. Press Enter on a task or habit to mark it
+done. `escape` or `b` goes back, `q` quits. The regular `python main.py`
+CLI still works exactly the same as before.
 
 ## Code Check
 

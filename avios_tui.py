@@ -1,7 +1,4 @@
-# AviOS TUI entry point (Phase 1: read-only Textual view)
-#
-# This does not replace `python main.py` — that CLI still works unchanged.
-# This is a second way to look at the same data, using Textual.
+# AviOS TUI entry point
 
 from tui.app import AviOSApp
 

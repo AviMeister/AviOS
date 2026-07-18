@@ -1,4 +1,4 @@
-# A yes/no popup asking whether a repeated task should become a habit idea.
+# Habit idea popup for the AviOS TUI
 
 from textual.app import ComposeResult
 from textual.containers import Vertical

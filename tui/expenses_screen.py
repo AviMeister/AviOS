@@ -1,4 +1,4 @@
-# Builds the read-only Textual screen that lists current expense information.
+# Expenses screen for the AviOS TUI
 
 from textual.app import ComposeResult
 from textual.screen import Screen

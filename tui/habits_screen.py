@@ -1,4 +1,4 @@
-# Builds the Textual screen that shows habits and lets you mark today done.
+# Habits screen for the AviOS TUI
 
 from datetime import datetime
 

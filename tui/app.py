@@ -1,4 +1,4 @@
-# Defines the main Textual application and its screen navigation rules.
+# Main Textual app for AviOS
 
 from asyncio import sleep
 
@@ -21,8 +21,8 @@ class AviOSApp(App):
 
     @work
     async def _start_up(self) -> None:
-        # push_screen_wait needs to run inside a worker, not directly in
-        # on_mount - this method exists so it can be run as one via @work.
+        # push_screen_wait only works inside a worker, so this method
+        # exists just so it can run as one (see the @work decorator above).
         if not get_user_name():
             name = await self.push_screen_wait(NameEntryModal())
             set_user_name(name)

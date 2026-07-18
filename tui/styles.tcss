@@ -1,4 +1,4 @@
-/* Styles the read-only Textual interface so AviOS stays clear and calm to use. */
+/* Styles for the AviOS TUI */
 
 #dashboard_body {
     padding: 1 2;
