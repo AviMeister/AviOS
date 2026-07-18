@@ -84,7 +84,8 @@ class TasksScreen(Screen):
         else:
             self._load_rows(focus_task_index=task_index)
 
-    def _handle_habit_decision(self, task_index: int, accepted: bool) -> None:
+    def _handle_habit_decision(self, task_index: int, accepted: bool | None) -> None:
+        accepted = bool(accepted)
         apply_habit_decision(task_index, accepted)
         self.notify("Saved as a habit idea" if accepted else "Kept as a regular task")
         self._load_rows(focus_task_index=task_index)
