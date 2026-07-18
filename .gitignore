@@ -20,6 +20,8 @@ habits.json
 expenses.json
 dashboard.json
 profile.json
+settings.json
+web/static/uploads/
 
 # Local Codex instructions
 AGENTS.md

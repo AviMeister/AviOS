@@ -16,10 +16,7 @@ def mark_task_done(task_index):
         }
     )
     save_tasks()
-    print("\n Marked done.")
-    print(" Good. One step forward.")
     add_activity(f"Completed task: {task_list[task_index]['name']}")
-    ask_about_habit(task_index)
 
 
 def mark_task_open(task_index):
@@ -88,6 +85,9 @@ def manage_task(task_index):
         mark_task_open(task_index)
     elif choice == "1":
         mark_task_done(task_index)
+        print("\n Marked done.")
+        print(" Good. One step forward.")
+        ask_about_habit(task_index)
     elif choice == "2":
         edit_task(task_index)
     elif choice == "3":

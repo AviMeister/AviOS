@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}AviOS{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">AviOS</a>
+    <nav>
+      <a href="/">Dashboard</a>
+      <a href="/web/tasks">Tasks</a>
+      <a href="/web/habits">Habits</a>
+      <a href="/web/expenses">Expenses</a>
+      <a href="/web/guide">Guide</a>
+      <a href="/web/faq">FAQ</a>
+      <a href="/web/settings">Settings</a>
+    </nav>
+  </header>
+  <main>
+    {% if message %}<p class="notice">{{ message }}</p>{% endif %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

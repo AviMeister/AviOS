@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Tasks | AviOS{% endblock %}
+{% macro task_table(items, mode) %}
+<div class="table-wrap"><table><tr><th>Task</th><th>Status</th><th>Actions</th></tr>
+{% for task in items %}<tr><td><form class="inline" method="post" action="/web/tasks/{{ task.index }}/edit"><input name="name" value="{{ task.name }}" required><button>Rename</button></form></td><td>{% if task.completed %}Done{% elif task.archived %}Archived{% elif task.deleted %}Deleted{% else %}Open{% endif %}{% if task.pinned %} / Pinned{% endif %}</td><td class="actions">
+{% if mode == "active" %}<form method="post" action="/web/tasks/{{ task.index }}/{% if task.completed %}open{% else %}done{% endif %}"><button>{% if task.completed %}Reopen{% else %}Done{% endif %}</button></form><form method="post" action="/web/tasks/{{ task.index }}/{% if task.pinned %}unpin{% else %}pin{% endif %}"><button class="secondary">{% if task.pinned %}Unpin{% else %}Pin{% endif %}</button></form><form method="post" action="/web/tasks/{{ task.index }}/archive"><button class="secondary">Archive</button></form><form method="post" action="/web/tasks/{{ task.index }}/delete"><button class="danger">Delete</button></form>
+{% elif mode == "deleted" %}<form method="post" action="/web/tasks/{{ task.index }}/restore"><button>Restore</button></form><form method="post" action="/web/tasks/{{ task.index }}/purge" onsubmit="return confirm('Delete this task forever?')"><button class="danger">Delete forever</button></form>{% endif %}
+</td></tr>{% else %}<tr><td colspan="3" class="empty">Nothing here.</td></tr>{% endfor %}</table></div>
+{% endmacro %}
+{% block content %}<div class="page-heading"><div><h1>Tasks</h1><p>Add, complete, organise, and recover tasks.</p></div><form class="quick-add" method="post" action="/web/tasks/add"><input name="name" placeholder="New task" required><button>Add task</button></form></div>
+<section><h2>Active</h2>{{ task_table(active, "active") }}</section><section><h2>Archived</h2>{{ task_table(archived, "archived") }}</section><section><h2>Deleted</h2>{{ task_table(deleted, "deleted") }}</section>{% endblock %}

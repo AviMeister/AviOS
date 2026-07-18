@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}FAQ | AviOS{% endblock %}
+{% block content %}
+<div class="page-heading"><div><h1>Questions, answered</h1><p>You do not need to know everything before you begin. AviOS is meant to help, not examine you.</p></div></div>
+<section class="reading-page">
+  <details open><summary>What is AviOS?</summary><p>AviOS is your personal place for tasks, habits, expenses, and a gentle daily overview. Use the parts that help you today; the rest can wait.</p></details>
+  <details><summary>Where is my information saved?</summary><p>Your information is saved locally in files on this computer. The web pages and terminal application share the same data.</p></details>
+  <details><summary>Does AviOS send my information online?</summary><p>No. The current application works locally. Adding API settings only saves configuration; it does not send anything or activate a service.</p></details>
+  <details><summary>What happens when I archive or delete something?</summary><p>Archived items are put aside but kept. Deleted items can still be restored until you choose to remove them permanently.</p></details>
+  <details><summary>What should I do if something looks wrong?</summary><p>Pause, avoid deleting data, and note what you clicked. Restarting the local server is a sensible first check. Your work is more recoverable when you move calmly.</p></details>
+</section>
+{% endblock %}

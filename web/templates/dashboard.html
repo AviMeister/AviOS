@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | AviOS{% endblock %}
+{% block content %}
+<div class="page-heading"><div><h1>Welcome, {{ name or "there" }}</h1><p>{{ progress }}</p></div></div>
+<section class="metrics">
+  <div><strong>{{ open_tasks }}</strong><span>Open tasks</span></div>
+  <div><strong>{{ done_tasks }}</strong><span>Done tasks</span></div>
+  <div><strong>{{ habits_done }}/{{ habit_total }}</strong><span>Habits today</span></div>
+  <div><strong>{{ "%.2f"|format(balance) }}</strong><span>EUR balance</span></div>
+</section>
+<section><h2>Today</h2><div class="dashboard-grid">
+  <form method="post" action="/web/dashboard/focus"><label>Daily focus<input name="value" value="{{ focus }}" required></label><button>Save focus</button></form>
+  <form method="post" action="/web/dashboard/mood"><label>Mood<select name="value">{% for value in range(1, 6) %}<option value="{{ value }}" {% if mood == value %}selected{% endif %}>{{ value }}</option>{% endfor %}</select></label><button>Check in</button></form>
+  <form method="post" action="/web/dashboard/note"><label>Quick note<textarea name="value" required>{{ note }}</textarea></label><button>Save note</button></form>
+  <form method="post" action="/web/profile"><label>Your name<input name="name" value="{{ name }}" required></label><button>Save profile</button></form>
+</div></section>
+<section><h2>Momentum</h2><p>Task day streak: <strong>{{ task_streak }}</strong> &nbsp; Habit streak: <strong>{{ habit_streak }}</strong></p><p>To pay: {{ "%.2f"|format(pay) }} EUR &nbsp; To receive: {{ "%.2f"|format(receive) }} EUR</p></section>
+<section><h2>Recent activity</h2><ul>{% for item in activity %}<li>{{ item.message }} <small>{{ item.created_at }}</small></li>{% else %}<li>No activity yet.</li>{% endfor %}</ul></section>
+{% endblock %}

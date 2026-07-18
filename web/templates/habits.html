@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Habits | AviOS{% endblock %}
+{% block content %}
+<div class="page-heading"><div><h1>Habits</h1><p>Keep small promises to yourself.</p></div></div>
+<section><h2>Add habit</h2><form class="form-row" method="post" action="/web/habits/add"><input name="name" placeholder="Habit name" required><select name="category">{% for category in ["Movement", "Sleep", "Nutrition", "Mind", "Learning", "Social", "General"] %}<option>{{ category }}</option>{% endfor %}</select><button>Add habit</button></form></section>
+<section><div class="table-wrap"><table><tr><th>Habit</th><th>Category</th><th>Streak</th><th>Today</th></tr>
+{% for habit in habits %}<tr><td>{{ habit.name }}</td><td>{{ habit.category }}</td><td>{{ habit.streak }}</td><td>{% if today in habit.done_dates %}<span class="done">Done today</span>{% else %}<form method="post" action="/web/habits/{{ habit.index }}/done"><button>Done today</button></form>{% endif %}</td></tr>{% else %}<tr><td colspan="4" class="empty">No habits yet.</td></tr>{% endfor %}
+</table></div></section>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Settings | AviOS{% endblock %}
+{% block content %}
+<div class="page-heading"><div><h1>Settings</h1><p>Make AviOS feel like yours, one thoughtful choice at a time.</p></div></div>
+<nav class="tabs" aria-label="Settings sections">
+  <a class="{% if section == 'personal' %}active{% endif %}" href="/web/settings?section=personal">Personal information</a>
+  <a class="{% if section == 'api' %}active{% endif %}" href="/web/settings?section=api">API settings</a>
+</nav>
+{% if section == "personal" %}
+<section class="settings-layout">
+  <div class="profile-preview">
+    {% if profile.picture %}<img class="avatar" src="{{ profile.picture }}" alt="Your profile picture">{% else %}<div class="avatar avatar-fallback">{{ (profile.name or "A")[:1] }}</div>{% endif %}
+    <h2>{{ profile.name or "Your profile" }}</h2>
+    <p>{% if age is not none %}{{ age }} years old{% else %}Add your birthdate to show your age.{% endif %}</p>
+  </div>
+  <div class="settings-forms">
+    <form class="panel" method="post" action="/web/settings/personal">
+      <h2>About you</h2>
+      <label>Name<input name="name" value="{{ profile.name or '' }}" required></label>
+      <label>Birthdate<input type="date" name="birthdate" value="{{ profile.birthdate or '' }}"></label>
+      <button>Save personal information</button>
+    </form>
+    <form class="panel" method="post" action="/web/settings/picture" enctype="multipart/form-data">
+      <h2>Profile picture</h2>
+      <p>Choose a JPG, PNG, or WebP picture smaller than 2 MB.</p>
+      <label>Picture<input type="file" name="picture" accept="image/jpeg,image/png,image/webp" required></label>
+      <button>Upload picture</button>
+    </form>
+  </div>
+</section>
+{% else %}
+<section class="panel narrow-panel">
+  <h2>API connection</h2>
+  <p>These details prepare AviOS for a future service. Saving them does not send any data or turn an integration on.</p>
+  <form method="post" action="/web/settings/api">
+    <label>Provider<input name="provider" value="{{ api.provider }}" placeholder="For example: OpenAI"></label>
+    <label>Model<input name="model" value="{{ api.model }}" placeholder="The model name"></label>
+    <label>Base URL<input type="url" name="base_url" value="{{ api.base_url }}" placeholder="https://api.example.com"></label>
+    <label>API key<input type="password" name="api_key" autocomplete="new-password" placeholder="{% if has_api_key %}A key is already saved{% else %}Paste a key to save it privately{% endif %}"></label>
+    <small>The key is kept in your ignored local .env file and is never shown again.</small>
+    <button>Save API settings</button>
+  </form>
+</section>
+{% endif %}
+{% endblock %}
