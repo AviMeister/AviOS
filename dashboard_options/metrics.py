@@ -81,9 +81,11 @@ def get_expense_balance():
     return totals_by_currency, combined_totals, balance
 
 
-def get_progress_message():
-    tasks_done_today = get_tasks_done_today_count()
-    habits_done, habit_total = get_habit_counts()
+def get_progress_message(tasks_done_today=None, habits_done=None, habit_total=None):
+    if tasks_done_today is None:
+        tasks_done_today = get_tasks_done_today_count()
+    if habits_done is None or habit_total is None:
+        habits_done, habit_total = get_habit_counts()
 
     if tasks_done_today > 0 and habits_done > 0:
         return "Good. You moved both tasks and habits forward today."

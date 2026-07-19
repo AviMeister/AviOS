@@ -57,7 +57,7 @@ def test_api_key_is_not_rendered(monkeypatch):
 def test_missing_task_returns_404(monkeypatch):
     monkeypatch.setattr(task_service, "task_list", [])
 
-    response = client.post("/tasks/99/done")
+    response = client.post("/api/tasks/99/done")
 
     assert response.status_code == 404
 
@@ -66,7 +66,7 @@ def test_completing_done_task_does_not_duplicate_history(monkeypatch):
     tasks = [sample_task(completed=True)]
     monkeypatch.setattr(task_service, "task_list", tasks)
 
-    response = client.post("/tasks/0/done")
+    response = client.post("/api/tasks/0/done")
 
     assert response.status_code == 200
     assert tasks[0]["done_history"] == []

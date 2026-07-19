@@ -72,4 +72,18 @@ def sort_by_newest(task_indexes):
     )
 
 
+def build_task(name):
+    return {
+        "name": name,
+        "completed": False,
+        "archived": False,
+        "deleted": False,
+        "created_at": get_current_timestamp(),
+        "done_history": [],
+        "habit_candidate": False,
+        "habit_prompt_dismissed": False,
+        "pinned": False,
+    }
+
+
 task_list = load_tasks()

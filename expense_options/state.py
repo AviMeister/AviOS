@@ -43,4 +43,18 @@ def save_expenses():
         json.dump(expense_list, file, indent=4)
 
 
+def build_expense(description, amount, currency, direction, category, rate):
+    return {
+        "description": description,
+        "amount": amount,
+        "currency": currency,
+        "direction": direction,
+        "category": category,
+        "exchange_rate_to_eur": 1.0 if currency == "EUR" else rate,
+        "created_at": get_current_timestamp(),
+        "archived": False,
+        "deleted": False,
+    }
+
+
 expense_list = load_expenses()

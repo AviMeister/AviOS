@@ -3,7 +3,7 @@
 from fastapi import HTTPException
 
 from habit_options.done_today import mark_habit_done
-from habit_options.state import get_current_timestamp, habit_list, save_habits
+from habit_options.state import build_habit, habit_list, save_habits
 
 
 CATEGORIES = ["Movement", "Sleep", "Nutrition", "Mind", "Learning", "Social", "General"]
@@ -21,12 +21,7 @@ def create_habit(name, category):
         raise HTTPException(status_code=400, detail="Habit name is required")
     if category not in CATEGORIES:
         category = "General"
-    habit = {
-        "name": name,
-        "category": category,
-        "created_at": get_current_timestamp(),
-        "done_dates": [],
-    }
+    habit = build_habit(name, category)
     habit_list.append(habit)
     save_habits()
     return len(habit_list) - 1, habit

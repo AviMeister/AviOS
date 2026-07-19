@@ -14,6 +14,6 @@ BASE_DIR = Path(__file__).parent
 
 app = FastAPI(title="AviOS Web API", version="0.3.0")
 app.mount("/static", StaticFiles(directory=BASE_DIR / "web" / "static"), name="static")
-app.include_router(api_router)
+app.include_router(api_router, prefix="/api")
 app.include_router(page_router)
 app.include_router(settings_router)

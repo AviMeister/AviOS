@@ -3,7 +3,7 @@
 from fastapi import HTTPException
 
 from dashboard_options.activity import add_activity
-from expense_options.state import expense_list, get_current_timestamp, save_expenses
+from expense_options.state import build_expense, expense_list, get_current_timestamp, save_expenses
 
 
 CURRENCIES = {"EUR", "USD", "GBP", "SRD"}
@@ -26,17 +26,7 @@ def create_expense(description, amount, currency, direction, category, rate):
     currency = currency if currency in CURRENCIES else "EUR"
     direction = direction if direction in DIRECTIONS else "pay"
     category = category if category in CATEGORIES else "Other"
-    expense = {
-        "description": description,
-        "amount": amount,
-        "currency": currency,
-        "direction": direction,
-        "category": category,
-        "exchange_rate_to_eur": 1.0 if currency == "EUR" else rate,
-        "created_at": get_current_timestamp(),
-        "archived": False,
-        "deleted": False,
-    }
+    expense = build_expense(description, amount, currency, direction, category, rate)
     expense_list.append(expense)
     save_expenses()
     add_activity(f"Added expense: {description}")

@@ -1,6 +1,6 @@
 # Add habit option for AviOS
 
-from habit_options.state import get_current_timestamp, habit_list, save_habits
+from habit_options.state import build_habit, habit_list, save_habits
 
 
 def choose_category():
@@ -35,13 +35,6 @@ def add_habit():
 
     category = choose_category()
 
-    habit_list.append(
-        {
-            "name": habit_name,
-            "category": category,
-            "created_at": get_current_timestamp(),
-            "done_dates": [],
-        }
-    )
+    habit_list.append(build_habit(habit_name, category))
     save_habits()
     print(f"\n Added habit: {habit_name}")

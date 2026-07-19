@@ -3,7 +3,7 @@
 # Viewing, editing, totals, archiving, and deletion live in their own focused files.
 
 from dashboard_options.activity import add_activity
-from expense_options.state import expense_list, get_current_timestamp, save_expenses
+from expense_options.state import build_expense, expense_list, save_expenses
 
 
 def get_valid_amount():
@@ -111,19 +111,7 @@ def add_expense():
     exchange_rate_to_eur = get_exchange_rate_to_eur(currency)
     category = choose_category()
 
-    expense_list.append(
-        {
-            "description": description,
-            "amount": amount,
-            "currency": currency,
-            "direction": direction,
-            "category": category,
-            "exchange_rate_to_eur": exchange_rate_to_eur,
-            "created_at": get_current_timestamp(),
-            "archived": False,
-            "deleted": False,
-        }
-    )
+    expense_list.append(build_expense(description, amount, currency, direction, category, exchange_rate_to_eur))
     save_expenses()
     add_activity(f"Added expense: {description}")
     print(f"\n Added: {description}")

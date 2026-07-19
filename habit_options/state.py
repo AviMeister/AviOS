@@ -41,4 +41,13 @@ def save_habits():
         json.dump(habit_list, file, indent=4)
 
 
+def build_habit(name, category):
+    return {
+        "name": name,
+        "category": category,
+        "created_at": get_current_timestamp(),
+        "done_dates": [],
+    }
+
+
 habit_list = load_habits()

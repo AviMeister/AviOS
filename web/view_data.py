@@ -11,6 +11,7 @@ from dashboard_options.metrics import (
     get_progress_message,
     get_task_counts,
     get_task_day_streak,
+    get_tasks_done_today_count,
 )
 from dashboard_options.mood import get_today_mood
 from dashboard_options.notes import get_today_note
@@ -36,6 +37,7 @@ def indexed(items, indexes=None):
 def dashboard_data():
     open_tasks, done_tasks = get_task_counts()
     habits_done, habit_total = get_habit_counts()
+    tasks_done_today = get_tasks_done_today_count()
     _, totals, balance = get_expense_balance()
     return {
         "name": get_user_name(),
@@ -51,7 +53,7 @@ def dashboard_data():
         "pay": totals["pay"],
         "receive": totals["receive"],
         "balance": balance,
-        "progress": get_progress_message(),
+        "progress": get_progress_message(tasks_done_today, habits_done, habit_total),
         "activity": get_recent_activity(),
     }
 

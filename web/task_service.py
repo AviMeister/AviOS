@@ -4,7 +4,7 @@ from fastapi import HTTPException
 
 from dashboard_options.activity import add_activity
 from task_options.pinned import pin_task, unpin_task
-from task_options.state import get_current_timestamp, save_tasks, task_list
+from task_options.state import build_task, get_current_timestamp, save_tasks, task_list
 from task_options.task_actions import archive_task, mark_task_done, mark_task_open
 
 
@@ -18,17 +18,7 @@ def create_task(name):
     name = name.strip()
     if not name:
         raise HTTPException(status_code=400, detail="Task name is required")
-    task = {
-        "name": name,
-        "completed": False,
-        "archived": False,
-        "deleted": False,
-        "created_at": get_current_timestamp(),
-        "done_history": [],
-        "habit_candidate": False,
-        "habit_prompt_dismissed": False,
-        "pinned": False,
-    }
+    task = build_task(name)
     task_list.append(task)
     save_tasks()
     add_activity(f"Added task: {name}")
