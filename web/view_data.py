@@ -1,5 +1,7 @@
 """Build template data from AviOS's existing feature helpers."""
 
+from datetime import datetime
+
 from dashboard_options.activity import get_recent_activity
 from dashboard_options.focus import get_daily_focus
 from dashboard_options.metrics import (
@@ -25,7 +27,9 @@ from task_options.display import get_archived_task_order, get_deleted_task_order
 from task_options.state import task_list
 
 
-def indexed(items, indexes):
+def indexed(items, indexes=None):
+    if indexes is None:
+        indexes = range(len(items))
     return [{"index": index, **items[index]} for index in indexes]
 
 
@@ -61,8 +65,6 @@ def tasks_data():
 
 
 def habits_data():
-    from datetime import datetime
-
     today = get_today_date()
     today_date = datetime.strptime(today, "%d-%m-%Y").date()
     return {

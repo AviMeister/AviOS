@@ -23,8 +23,7 @@ def render(request, template, data):
 
 
 def go(path, message):
-    separator = "&" if "?" in path else "?"
-    return RedirectResponse(f"{path}{separator}message={quote(message)}", status_code=303)
+    return RedirectResponse(f"{path}?message={quote(message)}", status_code=303)
 
 
 @router.get("/")

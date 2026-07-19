@@ -16,12 +16,18 @@ def update_profile(name):
 
 def update_dashboard(field, value):
     value = value.strip()
-    if field == "focus" and value:
+    if field == "focus":
+        if not value:
+            raise HTTPException(status_code=400, detail="Focus cannot be empty")
         dashboard_data["daily_focus"] = value
-    elif field == "note" and value:
+    elif field == "note":
+        if not value:
+            raise HTTPException(status_code=400, detail="Note cannot be empty")
         dashboard_data.setdefault("quick_notes", {})[get_today_date()] = value
-    elif field == "mood" and value in {"1", "2", "3", "4", "5"}:
+    elif field == "mood":
+        if value not in {"1", "2", "3", "4", "5"}:
+            raise HTTPException(status_code=400, detail="Mood must be 1 to 5")
         dashboard_data.setdefault("mood_checkins", {})[get_today_date()] = int(value)
     else:
-        raise HTTPException(status_code=400, detail="Invalid dashboard value")
+        raise HTTPException(status_code=400, detail="Unknown dashboard field")
     save_dashboard_data(dashboard_data)

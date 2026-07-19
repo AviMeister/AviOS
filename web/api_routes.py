@@ -8,13 +8,10 @@ from habit_options.state import habit_list
 from task_options.state import task_list
 from web import expense_service, habit_service, task_service
 from web.schemas import ExpenseCreate, HabitCreate, TaskCreate
+from web.view_data import indexed
 
 
 router = APIRouter(tags=["api"])
-
-
-def indexed(items):
-    return [{"index": index, **item} for index, item in enumerate(items)]
 
 
 @router.get("/tasks")

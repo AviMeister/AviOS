@@ -63,7 +63,9 @@ def apply_expense_action(expense_index, action):
     elif action == "restore":
         expense["deleted"] = False
         expense.pop("deleted_at", None)
-    elif action == "purge" and expense.get("deleted", False):
+    elif action == "purge":
+        if not expense.get("deleted", False):
+            raise HTTPException(status_code=400, detail="Expense must be deleted before purging")
         expense_list.pop(expense_index)
         save_expenses()
         return None

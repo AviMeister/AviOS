@@ -27,12 +27,15 @@ def load_api_settings():
 
 
 def save_api_settings(provider, model, base_url, api_key):
-    data = {
-        "api": {
-            "provider": provider.strip(),
-            "model": model.strip(),
-            "base_url": base_url.strip(),
-        }
+    try:
+        with SETTINGS_FILE.open(encoding="utf-8") as file:
+            data = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        data = {}
+    data["api"] = {
+        "provider": provider.strip(),
+        "model": model.strip(),
+        "base_url": base_url.strip(),
     }
     with SETTINGS_FILE.open("w", encoding="utf-8") as file:
         json.dump(data, file, indent=4)
@@ -52,7 +55,7 @@ def save_secret(name, value):
 def has_api_key():
     if not ENV_FILE.exists():
         return False
-    return any(line.startswith("AVIOS_API_KEY=") and line.partition("=")[2] for line in ENV_FILE.read_text(encoding="utf-8").splitlines())
+    return "AVIOS_API_KEY=" in ENV_FILE.read_text(encoding="utf-8")
 
 
 def calculate_age(birthdate):

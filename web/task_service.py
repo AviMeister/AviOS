@@ -45,8 +45,13 @@ def rename_task(task_index, name):
     return task
 
 
+_VALID_TASK_ACTIONS = {"done", "open", "pin", "unpin", "archive", "delete", "restore", "purge"}
+
+
 def apply_task_action(task_index, action):
     task = get_task(task_index)
+    if action not in _VALID_TASK_ACTIONS:
+        raise HTTPException(status_code=400, detail="Unsupported task action")
     if action == "done" and not task.get("completed", False):
         mark_task_done(task_index)
     elif action == "open" and task.get("completed", False):
@@ -65,10 +70,10 @@ def apply_task_action(task_index, action):
         task["deleted"] = False
         task.pop("deleted_at", None)
         save_tasks()
-    elif action == "purge" and task.get("deleted", False):
+    elif action == "purge":
+        if not task.get("deleted", False):
+            raise HTTPException(status_code=400, detail="Task must be deleted before purging")
         task_list.pop(task_index)
         save_tasks()
         return None
-    elif action not in {"done", "open"}:
-        raise HTTPException(status_code=400, detail="Unsupported task action")
     return task
