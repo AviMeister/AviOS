@@ -26,6 +26,7 @@ from habit_options.streaks import get_current_streak
 from profile_options.state import get_user_name
 from task_options.display import get_archived_task_order, get_deleted_task_order, get_task_order
 from task_options.state import task_list
+from web.character_service import character_data
 
 
 def indexed(items, indexes=None):
@@ -55,6 +56,7 @@ def dashboard_data():
         "balance": balance,
         "progress": get_progress_message(tasks_done_today, habits_done, habit_total),
         "activity": get_recent_activity(),
+        **character_data(),
     }
 
 

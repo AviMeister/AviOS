@@ -55,7 +55,11 @@ def save_secret(name, value):
 def has_api_key():
     if not ENV_FILE.exists():
         return False
-    return "AVIOS_API_KEY=" in ENV_FILE.read_text(encoding="utf-8")
+    lines = ENV_FILE.read_text(encoding="utf-8").splitlines()
+    return any(
+        line.startswith(("OPENAI_API_KEY=", "AVIOS_API_KEY=")) and line.partition("=")[2].strip()
+        for line in lines
+    )
 
 
 def calculate_age(birthdate):

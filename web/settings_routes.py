@@ -1,8 +1,8 @@
 """Settings, help, and documentation pages for AviOS."""
 
-from fastapi import APIRouter, File, Form, Request, UploadFile
+from fastapi import APIRouter, File, Form, HTTPException, Request, UploadFile
 
-from web import settings_service
+from web import character_service, settings_service
 from web.page_routes import go, render
 
 
@@ -24,6 +24,15 @@ def save_personal(name: str = Form(...), birthdate: str = Form("")):
 async def save_picture(picture: UploadFile = File(...)):
     await settings_service.save_profile_picture(picture)
     return go("/web/settings", "Profile picture saved")
+
+
+@router.post("/web/settings/character")
+def create_character():
+    try:
+        character_service.create_dashboard_character()
+    except HTTPException as error:
+        return go("/web/settings", str(error.detail))
+    return go("/web/settings", "Dashboard character created")
 
 
 @router.post("/web/settings/api")

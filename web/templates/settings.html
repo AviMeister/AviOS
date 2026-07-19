@@ -26,6 +26,11 @@
       <label>Picture<input type="file" name="picture" accept="image/jpeg,image/png,image/webp" required></label>
       <button>Upload picture</button>
     </form>
+    <form class="panel" method="post" action="/web/settings/character">
+      <h2>Dashboard character</h2>
+      <p>Create a transparent, hand-painted storybook version of your profile picture.</p>
+      {% if not profile.picture %}<p class="form-hint">Upload a profile picture above first.</p>{% elif has_api_key %}<button>Create character (uses paid API)</button><small>One image is generated only when you press this button.</small>{% else %}<p class="form-hint">Add an OpenAI API key in the API settings tab first.</p>{% endif %}
+    </form>
   </div>
 </section>
 {% else %}

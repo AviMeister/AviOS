@@ -1,8 +1,11 @@
 """Focused tests for the AviOS web layer."""
 
+import base64
+from types import SimpleNamespace
+
 from fastapi.testclient import TestClient
 
-from web import settings_service, task_service
+from web import character_service, settings_service, task_service
 from web_api import app
 
 
@@ -65,6 +68,29 @@ def test_api_settings_redirect_stays_on_api_tab(monkeypatch):
 
     assert response.status_code == 303
     assert response.headers["location"] == "/web/settings?section=api&message=API%20settings%20saved"
+
+
+def test_character_generation_saves_transparent_result(monkeypatch, tmp_path):
+    source = tmp_path / "profile.png"
+    source.write_bytes(b"source image")
+    profile = {"picture": "/static/uploads/profile.png"}
+    image_result = SimpleNamespace(data=[SimpleNamespace(b64_json=base64.b64encode(b"png result").decode())])
+    fake_client = SimpleNamespace(images=SimpleNamespace(edit=lambda **kwargs: image_result))
+    monkeypatch.setattr(character_service, "profile_data", profile)
+    monkeypatch.setattr(character_service, "UPLOAD_DIR", tmp_path)
+    monkeypatch.setattr(character_service, "read_secret", lambda name: "test-key")
+    monkeypatch.setattr(character_service, "load_api_settings", lambda: {"model": "", "base_url": ""})
+    monkeypatch.setattr(character_service, "OpenAI", lambda **kwargs: fake_client)
+    monkeypatch.setattr(character_service, "save_profile", lambda: None)
+
+    result = character_service.create_dashboard_character()
+
+    assert result == "/static/uploads/dashboard_character.png"
+    assert (tmp_path / "dashboard_character.png").read_bytes() == b"png result"
+
+
+def test_character_message_exists_for_every_weekday():
+    assert set(character_service.WEEKDAY_MESSAGES) == set(range(7))
 
 
 def test_missing_task_returns_404(monkeypatch):

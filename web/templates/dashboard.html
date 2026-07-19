@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Dashboard | AviOS{% endblock %}
 {% block content %}
-<div class="page-heading"><div><h1>Welcome, {{ name or "there" }}</h1><p>{{ progress }}</p></div></div>
+<div class="welcome-row">
+  <div class="page-heading"><div><h1>Welcome, {{ name or "there" }}</h1><p>{{ progress }}</p></div></div>
+  {% if character_picture %}<aside class="dashboard-character"><img src="{{ character_picture }}" alt="Your AviOS storybook character"><p>{{ character_message }}</p></aside>{% endif %}
+</div>
 <section class="metrics">
   <div><strong>{{ open_tasks }}</strong><span>Open tasks</span></div>
   <div><strong>{{ done_tasks }}</strong><span>Done tasks</span></div>
