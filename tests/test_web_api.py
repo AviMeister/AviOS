@@ -54,6 +54,19 @@ def test_api_key_is_not_rendered(monkeypatch):
     assert "AVIOS_API_KEY=" not in response.text
 
 
+def test_api_settings_redirect_stays_on_api_tab(monkeypatch):
+    monkeypatch.setattr(settings_service, "save_api_settings", lambda *args: None)
+
+    response = client.post(
+        "/web/settings/api",
+        data={"provider": "OpenAI", "model": "test", "base_url": "", "api_key": ""},
+        follow_redirects=False,
+    )
+
+    assert response.status_code == 303
+    assert response.headers["location"] == "/web/settings?section=api&message=API%20settings%20saved"
+
+
 def test_missing_task_returns_404(monkeypatch):
     monkeypatch.setattr(task_service, "task_list", [])
 
